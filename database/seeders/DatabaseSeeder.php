@@ -14,22 +14,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
-
-        Mahasiswa::create([
-            'nim' => '2105551010',
-            'name' => 'Maria Christina Hartono',
-            'angkatan' => '2021',
-            'jk' => 'perempuan',
-            'telepon' => '081234567890',
-            'agama' => 'Kristen',
-            'alamat' => 'Badung, Bali'
+        $this->call([
+            MataKuliahSeeder::class,
+            MahasiswaSeeder::class,
         ]);
+
+        // Generate Seeder for KRS
+        $listMahasiswa = Mahasiswa::get();
+        $listMatakuliah = MataKuliah::get();
+        foreach ($listMahasiswa as $mahasiswa) {
+            foreach ($listMatakuliah as $matakuliah) {
+                $nilai = fake()->numberBetween(0, 100);
+                if ($mahasiswa->nim == '2105551010') {
+                    $nilai = 100;
+                }
+
+                Krs::create([
+                    'mahasiswa_id' => $mahasiswa->id,
+                    'mata_kuliah_id' => $matakuliah->id,
+                    'nilai' => $nilai
+                ]);
+            }
+        }
     }
 }

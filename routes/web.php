@@ -7,7 +7,4 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 Route::get('/', [MahasiswaController::class, 'index']);
-Route::get('migrate_db', function() {
-    Artisan::call('migrate:fresh');
-    dd(Artisan::output());
- });
+Route::get('/search', [MahasiswaController::class, 'search']);
