@@ -3,7 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Mahasiswa;
-use App\Models\User;
+use App\Models\MataKuliah;
+use App\Models\Krs;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

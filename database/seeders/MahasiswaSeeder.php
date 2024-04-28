@@ -23,6 +23,6 @@ class MahasiswaSeeder extends Seeder
             'agama' => 'Kristen',
             'alamat' => 'Badung, Bali'
         ]);
-        Mahasiswa::factory(100)->create();
+        Mahasiswa::factory(1000)->create();
     }
 }
