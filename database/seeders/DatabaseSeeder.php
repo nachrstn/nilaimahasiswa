@@ -18,24 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             MataKuliahSeeder::class,
             MahasiswaSeeder::class,
+            SemesterSeeder::class,
+            KrsSeeder::class
         ]);
-
-        // Generate Seeder for KRS
-        $listMahasiswa = Mahasiswa::get();
-        $listMatakuliah = MataKuliah::get();
-        foreach ($listMahasiswa as $mahasiswa) {
-            foreach ($listMatakuliah as $matakuliah) {
-                $nilai = fake()->numberBetween(0, 100);
-                if ($mahasiswa->nim == '2105551010') {
-                    $nilai = 100;
-                }
-
-                Krs::create([
-                    'mahasiswa_id' => $mahasiswa->id,
-                    'mata_kuliah_id' => $matakuliah->id,
-                    'nilai' => $nilai
-                ]);
-            }
-        }
     }
 }

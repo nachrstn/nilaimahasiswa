@@ -2,24 +2,86 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Krs;
 use App\Models\Mahasiswa;
+use App\Models\Semester;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class MahasiswaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $mahasiswas = Mahasiswa::paginate(10);
-        return view('mahasiswa.index', compact('mahasiswas'));
+        $listSemester = Semester::orderBy('id', 'desc')->get();
+        $mahasiswa = Mahasiswa::where('nim', $request->nim)->first();
+        $semester = Semester::find($request->semester_id);
+
+        $listKrs = new Collection();
+        if ($mahasiswa) {
+            $listKrs = Krs::where('mahasiswa_id', $mahasiswa->id)
+                ->where('semester_id', $request->semester_id)
+                ->get();
+            $ipsCalculated = $this->calcIps($listKrs);
+
+            if ($request->is_calc_ipk == '1') {
+                $ipkCalculated = $this->calcIpk($mahasiswa, $semester);
+            }
+        }
+
+        return view('mahasiswa.index', [
+            'selectedMahasiswa' => $mahasiswa,
+            'selectedSemester' => $semester,
+            'ipkCalculated' => $ipkCalculated?? 0,
+            'ipsCalculated' => $ipsCalculated?? 0,
+            'listSemester' => $listSemester,
+            'listKrs' => $listKrs,
+            'nim' => $request->nim,
+            'semester_id' => $request->semester_id,
+            'is_calc_ipk' => $request->is_calc_ipk?? '0',
+        ]);
     }
 
-    public function search(Request $request)
-	{
-		$mahasiswas = Mahasiswa::where('nim', 'like', "%" . $request->keyword . "%")
-            ->orWhere('name', 'like', "%" . $request->keyword . "%")
-            ->paginate(10)
-            ->withQueryString();
+    private function calcIpk($mahasiswa, $semester)
+    {
+        $jmlIps = 0;
+        $listSemester = Semester::where('id', '<=', $semester->id)->orderBy('id', 'desc')->get();
+        foreach ($listSemester as $semester) {
+            $listKrs = Krs::where('mahasiswa_id', $mahasiswa->id)
+                ->where('semester_id', $semester->id)
+                ->get();
 
-        return view('mahasiswa.index', ['mahasiswas' => $mahasiswas, 'keyword' => $request->keyword]);
-	}
+            $ips = $this->calcIps($listKrs);
+            $jmlIps += $ips;
+        }
+        return $jmlIps / $listSemester->count();
+    }
+
+    private function calcIps($listKrs)
+    {
+        $totalSks = 0;
+        $totalIp = 0;
+
+        foreach ($listKrs as $krs) {
+            $sks = $krs->mataKuliah->sks;
+
+            if ($krs->nilai >= 80) {
+                $nilai = 4;
+            } else if ($krs->nilai >= 60) {
+                $nilai = 3;
+            } else if ($krs->nilai >= 40) {
+                $nilai = 2;
+            } else {
+                $nilai = 0;
+            }
+
+            $totalSks += $sks;
+            $totalIp += $sks * $nilai;
+        }
+
+        $ips = 0;
+        if ($totalIp != 0) {
+            $ips = $totalIp / $totalSks;
+        }
+        return $ips;
+    }
 }
