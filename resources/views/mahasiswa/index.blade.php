@@ -70,7 +70,7 @@
                                     @if(!empty($selectedMahasiswa)) {{ $selectedMahasiswa->nim }} @else - @endif
                                 </p>
                                 <p class="mb-2 fs-5 row">
-                                    <b class="col-1 fw-bold">IPS</b> : {{ $ipsCalculated }}
+                                    <b class="col-1 fw-bold">IPS</b> : {{ number_format($ipsCalculated, 2, '.', ',' )}}
                                 </p>
 
                                 <div class="d-inline-flex align-items-center g-5 border rounded-md py-2 px-3 mt-2">
@@ -78,7 +78,7 @@
                                     <span class="px-3 fw-bolder">:</span>
 
                                     @if ($is_calc_ipk == '1')
-                                    {{ $ipkCalculated }}
+                                    {{ number_format($ipkCalculated, 2, '.', ',') }}
                                     @else
                                     <form action="/" method="GET">
                                         <input type="hidden" name="nim" value="{{ $nim }}"/>

@@ -26,12 +26,12 @@ class KrsSeeder extends Seeder
                     $nilai = 100;
                 }
 
-                if ($indexMatkul > 5) {
-                    $semester = $listSemester[5];
-                } else {
-                    $semester = $listSemester[$indexMatkul];
-                }
-
+                // if ($indexMatkul > 5) {
+                //     $semester = $listSemester[5];
+                // } else {
+                    $semester = $listSemester[$indexMatkul % 6];
+                // }
+                
                 Krs::create([
                     'mahasiswa_id' => $mahasiswa->id,
                     'mata_kuliah_id' => $matakuliah->id,
