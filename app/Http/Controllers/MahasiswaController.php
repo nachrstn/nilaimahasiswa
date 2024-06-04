@@ -41,6 +41,33 @@ class MahasiswaController extends Controller
         ]);
     }
 
+    public function listMahasiswa(Request $request)
+    {
+        $mahasiswas = Mahasiswa::get();
+
+        $sumIpk = 0;
+        if ($request->is_average_ipk == '1' || $request->is_each_ipk == '1') {
+            set_time_limit(300);
+            foreach ($mahasiswas as $mahasiswa) {
+                $ipkMahasiswa = $this->calcIpk($mahasiswa, Semester::orderBy('id', 'desc')->first());
+                if ($request->is_each_ipk == '1') {
+                    $mahasiswa->ipk = $ipkMahasiswa;
+                }
+
+                if ($request->is_average_ipk == '1') {
+                    $sumIpk += $ipkMahasiswa;
+                }
+            }
+        }
+
+        return view('mahasiswa.list', [
+            'mahasiswas' => $mahasiswas,
+            'averageIpk' => $sumIpk / $mahasiswas->count(),
+            'isAverageIpk' => $request->is_average_ipk?? '0',
+            'isEachIpk' => $request->is_each_ipk?? '0',
+        ]);
+    }
+
     private function calcIpk($mahasiswa, $semester)
     {
         $jmlIps = 0;
@@ -83,11 +110,5 @@ class MahasiswaController extends Controller
             $ips = $totalIp / $totalSks;
         }
         return $ips;
-    }
-
-    public function indexlist()
-    {
-        $mahasiswas = Mahasiswa::paginate(10);
-        return view('mahasiswa.index', compact('mahasiswas'));
     }
 }

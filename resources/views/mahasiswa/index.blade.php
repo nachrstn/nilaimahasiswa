@@ -921,6 +921,10 @@
                     </div>
                 </header>
 
+                <a class="btn btn-primary" href="{{ route("list-mahasiswa") }}">
+                    List Mahasiswa
+                </a>
+
                 <main class="mt-6">
                     <div class="rounded-lg bg-white px-5 py-5 shadow mb-4 text-black">
                         <h2 class="fs-2 fw-bolder">Nilai Mahasiswa</h2>
@@ -1031,51 +1035,6 @@
                                 @endforelse
                             </tbody>
                         </table>
-                    </div>
-                    <a href="destination.html" target="_blank">
-                        <button style="background-color: blue; color: white;" href="{{ route("ipk") }}">Click Me!</button>
-                    </a>
-
-                    <div class="rounded-lg bg-white px-5 py-5 shadow mt mb-4 text-black">
-
-                        <p class="mb-2 fs-5 ">
-                            <b class="col-1 fw-bold">Rata-rata IPK Seluruh Mahasiswa</b> :
-                        </p>
-                        <div class="col-auto mb-4">
-                            <button type="submit" class="btn btn-primary">Hitung Nilai Rata-rata IPK</button>
-                        </div>
-                        <p class="mb-2 fs-5 ">
-                            {{-- <h2 class="fs-2 fw-bolder">Nilai IPK Seluruh Mahasiswa</h2> --}}
-                            <b class="col-1 fw-bold">Nilai IPK Seluruh Mahasiswa</b>
-                        </p>
-
-                        <div class="col-auto mb-4">
-                            <button type="submit" class="btn btn-primary">Hitung</button>
-                        </div>
-                        <table class="table table-bordered m-0 mb-4 text-center">
-                            <thead>
-                                <tr class="text-center font-bold">
-                                    <th>No</th>
-                                    <th>NIM</th>
-                                    <th>Name</th>
-                                    <th>IPK</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{-- @foreach ($mahasiswas as $mahasiswa)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $mahasiswa->nim }}</td>
-                                    <td>{{ $mahasiswa->name }}</td>
-                                    <td>{{ $mahasiswa->ipk }}</td>
-                                </tr>
-                                @endforeach --}}
-                            </tbody>
-                        </table>
-                        {{-- {{ $mahasiswas->appends($_GET)->links() }} --}}
-                        {{-- {{ $mahasiswas ?? 'Nilai Default' }} --}}
-                        {{-- {{ var_dump($mahasiswas) }} --}}
-
                     </div>
                 </main>
 

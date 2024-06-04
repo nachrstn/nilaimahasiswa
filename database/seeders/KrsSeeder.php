@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Krs;
+use App\Models\Mahasiswa;
 use App\Models\MataKuliah;
 use App\Models\semester;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class KrsSeeder extends Seeder
@@ -15,7 +15,7 @@ class KrsSeeder extends Seeder
      */
     public function run(): void
     {
-        $listMahasiswa = MataKuliah::get();
+        $listMahasiswa = Mahasiswa::get();
         $listMatakuliah = MataKuliah::get();
         $listSemester = semester::get();
         foreach ($listMahasiswa as $mahasiswa) {
@@ -26,12 +26,8 @@ class KrsSeeder extends Seeder
                     $nilai = 100;
                 }
 
-                // if ($indexMatkul > 5) {
-                //     $semester = $listSemester[5];
-                // } else {
-                    $semester = $listSemester[$indexMatkul % 6];
-                // }
-                
+                $semester = $listSemester[$indexMatkul % 6];
+
                 Krs::create([
                     'mahasiswa_id' => $mahasiswa->id,
                     'mata_kuliah_id' => $matakuliah->id,

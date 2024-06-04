@@ -921,75 +921,26 @@
                     </div>
                 </header>
 
+                <a class="btn btn-primary" href="{{ route("home") }}">
+                    Kembali
+                </a>
+
                 <main class="mt-6">
-                    <div class="rounded-lg bg-white px-5 py-5 shadow mb-4 text-black">
-                        <h2 class="fs-2 fw-bolder">Nilai Mahasiswa</h2>
+                    <div class="rounded-lg bg-white px-5 py-5 shadow mt mb-4 text-black">
+                        <h2 class="fs-2 fw-bolder">Nilai IPK Mahasiswa</h2>
 
-                        <form action="/" method="GET" class="row row-cols-lg-auto g-3">
-                            <div class="col-auto">
-                                <input type="text" class="form-control" id="nim" name="nim"
-                                    placeholder="NIM Mahasiswa" value="{{ $nim ?? '' }}" maxlength="10">
-                            </div>
-                            <div class="col-auto">
-                                <select id="semester" class="form-select" name="semester_id"
-                                    aria-label="Pilih Semester">
-                                    <option selected>Pilih Semester</option>
-                                    @foreach ($listSemester as $semester)
-                                        @if ($semester_id && $semester->id == $semester_id)
-                                            <option value="{{ $semester->id }}" selected>{{ $semester->name }}</option>
-                                        @else
-                                            <option value="{{ $semester->id }}">{{ $semester->name }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-auto">
-                                <button type="submit" class="btn btn-primary">Hitung</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="rounded-lg bg-white px-5 py-5 shadow mb-4 text-black">
-                        @if (!empty($selectedSemester))
-                            <h3 class="fs-3 fw-bolder mb-3">{{ $selectedSemester->name }}</h3>
-                        @else
-                            <h3 class="fs-3 fw-bolder mb-3">Belum Dipilih</h3>
-                        @endif
-
-                        <div class="mb-4">
-                            <p class="mb-2 fs-5 row">
-                                <b class="col-1 fw-bold">Nama</b> :
-                                @if (!empty($selectedMahasiswa))
-                                    {{ $selectedMahasiswa->name }}
-                                @else
-                                    -
-                                @endif
-                            </p>
-                            <p class="mb-2 fs-5 row">
-                                <b class="col-1 fw-bold">NIM</b> :
-                                @if (!empty($selectedMahasiswa))
-                                    {{ $selectedMahasiswa->nim }}
-                                @else
-                                    -
-                                @endif
-                            </p>
-                            <p class="mb-2 fs-5 row">
-                                <b class="col-1 fw-bold">IPS</b> : {{ number_format($ipsCalculated, 2, '.', ',') }}
-                            </p>
-
+                        <div class="col">
                             <div class="d-inline-flex align-items-center g-5 border rounded-md py-2 px-3 mt-2">
-                                <span class="fw-bolder">Akumulasi IPK</span>
+                                <span class="fw-bolder">Rata-Rata IPK Seluruh Mahasiswa</span>
                                 <span class="px-3 fw-bolder">:</span>
 
-                                @if ($is_calc_ipk == '1')
-                                    {{ number_format($ipkCalculated, 2, '.', ',') }}
+                                @if ($isAverageIpk == '1')
+                                    {{ number_format($averageIpk, 2, '.', ',') }}
                                 @else
-                                    <form action="/" method="GET">
-                                        <input type="hidden" name="nim" value="{{ $nim }}" />
-                                        <input type="hidden" name="semester_id" value="{{ $semester_id }}" />
-                                        <input type="hidden" name="is_calc_ipk" value="1" />
-                                        <button type="submit" class="btn btn-primary btn-sm"
-                                            @if (empty($selectedSemester) || empty($selectedMahasiswa)) disabled @endif>
+                                    <form action="/list-mahasiswa" method="GET">
+                                        <input type="hidden" name="is_each_ipk" value="{{ $isEachIpk }}" />
+                                        <input type="hidden" name="is_average_ipk" value="1" />
+                                        <button type="submit" class="btn btn-primary btn-sm">
                                             Hitung
                                         </button>
                                     </form>
@@ -997,58 +948,28 @@
                             </div>
                         </div>
 
-                        <table class="table table-bordered m-0 mb-4 text-center">
-                            <thead>
-                                <tr class="text-center font-bold">
-                                    <th width="50px">No</th>
-                                    <th class="text-start">Mata Kuliah</th>
-                                    <th>SKS</th>
-                                    <th>Huruf</th>
-                                    <th>Nilai Akhir</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($listKrs as $krs)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td class="text-start">
-                                            @if ($krs->mataKuliah)
-                                                {{ $krs->mataKuliah->name }}
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($krs->mataKuliah)
-                                                {{ $krs->mataKuliah->sks }}
-                                            @endif
-                                        </td>
-                                        <td>{{ $krs->huruf }}</td>
-                                        <td>{{ $krs->nilai }}</td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="6">Mahasiswa atau krs tidak ditemukan</tdc>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
+                       <div class="col mt-2 mb-4">
+                            <div class="d-inline-flex align-items-center g-5 border rounded-md py-2 px-3 mt-2">
+                                <span class="fw-bolder">Nilai IPK Tiap Mahasiswa</span>
+                                <span class="px-3 fw-bolder">:</span>
 
-                    <div class="rounded-lg bg-white px-5 py-5 shadow mt mb-4 text-black">
+                                <form action="/list-mahasiswa" method="GET">
+                                    <input type="hidden" name="is_each_ipk" value="{{ $isEachIpk=='1'? '0' : '1' }}" />
+                                    <input type="hidden" name="is_average_ipk" value="{{ $isAverageIpk }}" />
 
-                        <p class="mb-2 fs-5 ">
-                            <b class="col-1 fw-bold">Rata-rata IPK Seluruh Mahasiswa</b> :
-                        </p>
-                        <div class="col-auto mb-4">
-                            <button type="submit" class="btn btn-primary">Hitung Nilai Rata-rata IPK</button>
-                        </div>
-                        <p class="mb-2 fs-5 ">
-                            {{-- <h2 class="fs-2 fw-bolder">Nilai IPK Seluruh Mahasiswa</h2> --}}
-                            <b class="col-1 fw-bold">Nilai IPK Seluruh Mahasiswa</b>
-                        </p>
+                                    @if ($isEachIpk == '1')
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        Reset
+                                    </button>
+                                    @else
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        Hitung
+                                    </button>
+                                    @endif
+                                </form>
+                            </div>
+                       </div>
 
-                        <div class="col-auto mb-4">
-                            <button type="submit" class="btn btn-primary">Hitung</button>
-                        </div>
                         <table class="table table-bordered m-0 mb-4 text-center">
                             <thead>
                                 <tr class="text-center font-bold">
@@ -1059,20 +980,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($mahasiswas as $mahasiswa)
+                                @foreach ($mahasiswas as $mahasiswa)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $mahasiswa->nim }}</td>
                                     <td>{{ $mahasiswa->name }}</td>
-                                    <td>{{ $mahasiswa->ipk }}</td>
+                                    <td>{{ $isEachIpk == '1' ? number_format($mahasiswa->ipk, 2, '.', ',') : '-' }}</td>
                                 </tr>
-                                @endforeach --}}
+                                @endforeach
                             </tbody>
                         </table>
-                        {{-- {{ $mahasiswas->appends($_GET)->links() }} --}}
-                        {{-- {{ $mahasiswas ?? 'Nilai Default' }} --}}
-                        {{-- {{ var_dump($mahasiswas) }} --}}
-
                     </div>
                 </main>
 
