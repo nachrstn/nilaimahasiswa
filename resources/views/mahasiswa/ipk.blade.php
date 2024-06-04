@@ -1032,9 +1032,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <a href="destination.html" target="_blank">
-                        <button style="background-color: blue; color: white;" href="{{ route("ipk") }}">Click Me!</button>
-                    </a>
 
                     <div class="rounded-lg bg-white px-5 py-5 shadow mt mb-4 text-black">
 

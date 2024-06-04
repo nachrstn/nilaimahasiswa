@@ -84,4 +84,10 @@ class MahasiswaController extends Controller
         }
         return $ips;
     }
+
+    public function indexlist()
+    {
+        $mahasiswas = Mahasiswa::paginate(10);
+        return view('mahasiswa.index', compact('mahasiswas'));
+    }
 }
