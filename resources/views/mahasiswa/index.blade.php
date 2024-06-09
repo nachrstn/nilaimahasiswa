@@ -948,7 +948,7 @@
                                 </select>
                             </div>
                             <div class="col-auto">
-                                <button type="submit" class="btn btn-primary">Hitung</button>
+                                <button id="btn-hitungNilaiMahasiswa" type="submit" class="btn btn-primary">Hitung</button>
                             </div>
                         </form>
                     </div>

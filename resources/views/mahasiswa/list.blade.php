@@ -937,10 +937,10 @@
                                 @if ($isAverageIpk == '1')
                                     <span id="resultAverageIpk">{{ number_format($averageIpk, 2, '.', ',') }}</span>
                                 @else
-                                    <form id="btn-avgAllIpk" action="/list-mahasiswa" method="GET">
+                                    <form action="/list-mahasiswa" method="GET">
                                         <input type="hidden" name="is_each_ipk" value="{{ $isEachIpk }}" />
                                         <input type="hidden" name="is_average_ipk" value="1" />
-                                        <button type="submit" class="btn btn-primary btn-sm">
+                                        <button id="btn-avgAllIpk" type="submit" class="btn btn-primary btn-sm">
                                             Hitung
                                         </button>
                                     </form>
