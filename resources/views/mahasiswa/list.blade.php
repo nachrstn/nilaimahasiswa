@@ -921,7 +921,7 @@
                     </div>
                 </header>
 
-                <a class="btn btn-primary" href="{{ route("home") }}">
+                <a id="btn-kembali" class="btn btn-primary" href="{{ route("home") }}">
                     Kembali
                 </a>
 
@@ -935,9 +935,9 @@
                                 <span class="px-3 fw-bolder">:</span>
 
                                 @if ($isAverageIpk == '1')
-                                    {{ number_format($averageIpk, 2, '.', ',') }}
+                                    <span id="resultAverageIpk">{{ number_format($averageIpk, 2, '.', ',') }}</span>
                                 @else
-                                    <form action="/list-mahasiswa" method="GET">
+                                    <form id="btn-avgAllIpk" action="/list-mahasiswa" method="GET">
                                         <input type="hidden" name="is_each_ipk" value="{{ $isEachIpk }}" />
                                         <input type="hidden" name="is_average_ipk" value="1" />
                                         <button type="submit" class="btn btn-primary btn-sm">
@@ -958,11 +958,11 @@
                                     <input type="hidden" name="is_average_ipk" value="{{ $isAverageIpk }}" />
 
                                     @if ($isEachIpk == '1')
-                                    <button type="submit" class="btn btn-danger btn-sm">
+                                    <button id="btn-reset" type="submit" class="btn btn-danger btn-sm">
                                         Reset
                                     </button>
                                     @else
-                                    <button type="submit" class="btn btn-primary btn-sm">
+                                    <button id="btn-eachIpk" type="submit" class="btn btn-primary btn-sm">
                                         Hitung
                                     </button>
                                     @endif
@@ -994,7 +994,7 @@
                 </main>
 
                 <footer class="py-16 text-center fs-6 text-white">
-                    Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+                    {{-- Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }}) --}}
                 </footer>
             </div>
         </div>

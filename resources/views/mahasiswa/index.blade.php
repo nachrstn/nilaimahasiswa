@@ -921,7 +921,7 @@
                     </div>
                 </header>
 
-                <a class="btn btn-primary" href="{{ route("list-mahasiswa") }}">
+                <a id="btn-list-mahasiswa" class="btn btn-primary" href="{{ route("list-mahasiswa") }}">
                     List Mahasiswa
                 </a>
 
@@ -955,44 +955,47 @@
 
                     <div class="rounded-lg bg-white px-5 py-5 shadow mb-4 text-black">
                         @if (!empty($selectedSemester))
-                            <h3 class="fs-3 fw-bolder mb-3">{{ $selectedSemester->name }}</h3>
+                            <h3 id="selectedSemester" class="fs-3 fw-bolder mb-3">{{ $selectedSemester->name }}</h3>
                         @else
                             <h3 class="fs-3 fw-bolder mb-3">Belum Dipilih</h3>
                         @endif
 
                         <div class="mb-4">
-                            <p class="mb-2 fs-5 row">
-                                <b class="col-1 fw-bold">Nama</b> :
+                            <div class="mb-2 fs-5 d-flex ">
+                                <b class="col-1 fw-bold">Nama</b>: 
                                 @if (!empty($selectedMahasiswa))
-                                    {{ $selectedMahasiswa->name }}
+                                    <div id="selectedMahasiswaName" class="mx-1"> {{ $selectedMahasiswa->name }}</div>
                                 @else
                                     -
                                 @endif
-                            </p>
-                            <p class="mb-2 fs-5 row">
+                            </div>
+                            <div class="mb-2 fs-5 d-flex ">
                                 <b class="col-1 fw-bold">NIM</b> :
                                 @if (!empty($selectedMahasiswa))
-                                    {{ $selectedMahasiswa->nim }}
+                                    <div id="selectedMahasiswaNim" class="mx-1">{{ $selectedMahasiswa->nim }}</div>
                                 @else
                                     -
                                 @endif
-                            </p>
-                            <p class="mb-2 fs-5 row">
-                                <b class="col-1 fw-bold">IPS</b> : {{ number_format($ipsCalculated, 2, '.', ',') }}
-                            </p>
+                            </div>
+                            <div class="mb-2 fs-5 d-flex ">
+                                <b id="ipsCalculated" class="col-1 fw-bold">IPS</b> : {{ number_format($ipsCalculated, 2, '.', ',') }}
+                            </div>
 
                             <div class="d-inline-flex align-items-center g-5 border rounded-md py-2 px-3 mt-2">
                                 <span class="fw-bolder">Akumulasi IPK</span>
                                 <span class="px-3 fw-bolder">:</span>
-
+                                
                                 @if ($is_calc_ipk == '1')
+                                <span id="resultIpk">
                                     {{ number_format($ipkCalculated, 2, '.', ',') }}
+                                </span>
                                 @else
-                                    <form action="/" method="GET">
+                                
+                                    <form id="btn-calculationIpk-dis" action="/" method="GET">
                                         <input type="hidden" name="nim" value="{{ $nim }}" />
                                         <input type="hidden" name="semester_id" value="{{ $semester_id }}" />
                                         <input type="hidden" name="is_calc_ipk" value="1" />
-                                        <button type="submit" class="btn btn-primary btn-sm"
+                                        <button id="btn-calculatedIpk" type="submit" class="btn btn-primary btn-sm"
                                             @if (empty($selectedSemester) || empty($selectedMahasiswa)) disabled @endif>
                                             Hitung
                                         </button>
@@ -1015,7 +1018,7 @@
                                 @forelse($listKrs as $krs)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td class="text-start">
+                                        <td id="mataKuliahName" class="text-start">
                                             @if ($krs->mataKuliah)
                                                 {{ $krs->mataKuliah->name }}
                                             @endif
@@ -1039,7 +1042,7 @@
                 </main>
 
                 <footer class="py-16 text-center fs-6 text-white">
-                    Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+                    {{-- Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }}) --}}
                 </footer>
             </div>
         </div>
