@@ -1033,7 +1033,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6">Mahasiswa atau krs tidak ditemukan</tdc>
+                                        <td id="validatemsg" colspan="6">Mahasiswa atau krs tidak ditemukan</tdc>
                                     </tr>
                                 @endforelse
                             </tbody>
