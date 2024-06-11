@@ -985,7 +985,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $mahasiswa->nim }}</td>
                                     <td>{{ $mahasiswa->name }}</td>
-                                    <td>{{ $isEachIpk == '1' ? number_format($mahasiswa->ipk, 2, '.', ',') : '-' }}</td>
+                                    <td id="ipkscore">{{ $isEachIpk == '1' ? number_format($mahasiswa->ipk, 2, '.', ',') : '-' }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
